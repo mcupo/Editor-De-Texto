@@ -32,18 +32,9 @@ public abstract class ArchivoEditable extends Observable
     	return panel;
     }
 
-    public void open(String filename) throws FileNotFoundException, IOException
-    {
-    	
-    }
+    public abstract void open(String filename) throws FileNotFoundException, IOException;
     
-    public void save() throws IOException
-    {
-    	
-    }
+    public abstract void save() throws IOException;
     
-    public void close()
-    {
-    	
-    }
+    public abstract void close();
 }

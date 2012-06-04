@@ -1,5 +1,6 @@
 package ar.edu.ort.editor;
 
+import java.io.IOException;
 import java.util.Properties;
 
 import ar.edu.ort.archivos.ArchivoTexto;
@@ -17,6 +18,11 @@ public class Fabrica
 	private Fabrica()
 	{
 		props=new Properties();
+		try
+		{
+			props.load(getClass().getResourceAsStream("/ar/edu/ort/archivos/editor.properties"));
+		}
+		catch(IOException ex){}
 		props.put("txt",ArchivoTexto.class.getCanonicalName());
 	}
 	
@@ -45,10 +51,5 @@ public class Fabrica
 			ex.printStackTrace();
 		}	
 		return null;
-	}
-	
-	public final Properties getProperties()
-	{
-		return props;
 	}
 }
