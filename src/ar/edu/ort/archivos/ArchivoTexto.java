@@ -1,7 +1,6 @@
 package ar.edu.ort.archivos;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.TextArea;
 import java.io.BufferedReader;
 import java.io.File;
