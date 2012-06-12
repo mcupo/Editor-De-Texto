@@ -16,21 +16,20 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import ar.edu.ort.archivos.ArchivoTexto;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class EditorGenerico extends JFrame implements Observer
 {
 	private static final long serialVersionUID = 1L;
 	private static final int anchoButton = 60;
 	private static final int altoButton = 35;
-	private ArchivoEditable archivo = new ArchivoTexto();
+	private ArchivoEditable archivo;
 	private JFileChooser fChooser = new JFileChooser();
 
 	public EditorGenerico()
 	{
 		super("Editor");
-		archivo.addObserver(this);
 		crearControles();
 	}
 	
@@ -72,14 +71,22 @@ public class EditorGenerico extends JFrame implements Observer
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-	            int returnVal = fChooser.showOpenDialog(archivo.getPanel());
+	            int returnVal = fChooser.showOpenDialog(EditorGenerico.this);
 	            
 	            if (returnVal == JFileChooser.APPROVE_OPTION)
 	            {
 	                File file = fChooser.getSelectedFile();
+	                String extension=file.getName();
+	                extension=(extension.substring(extension.lastIndexOf("."))).replace(".", "");
+	                
 	                try
 	                {
-						archivo.open(file.getAbsolutePath());
+						archivo=Fabrica.instace().cargarEditor(extension);
+						//TODO validar extension
+						archivo.addObserver(EditorGenerico.this);
+	                	archivo.open(file.getAbsolutePath());
+	                	getContentPane().add(archivo.getPanel(),BorderLayout.CENTER);
+	                	SwingUtilities.updateComponentTreeUI(EditorGenerico.this);
 					}
 	                catch (FileNotFoundException e)
 					{					
@@ -136,6 +143,6 @@ public class EditorGenerico extends JFrame implements Observer
 			}
 		});
 		
-		getContentPane().add(archivo.getPanel(),BorderLayout.SOUTH);
+		//getContentPane().add(archivo.getPanel(),BorderLayout.SOUTH);
 	 }
 }

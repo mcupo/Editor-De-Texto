@@ -1,5 +1,6 @@
 package ar.edu.ort.editor;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.FileNotFoundException;
@@ -23,6 +24,7 @@ public abstract class ArchivoEditable extends Observable
     {
     	panel.setPreferredSize(new Dimension(0, 520));
     	panel.setBackground(Color.WHITE);
+    	panel.setLayout(new BorderLayout());
     }
     
     public boolean isModified()
@@ -32,7 +34,7 @@ public abstract class ArchivoEditable extends Observable
     
     protected void setModified(boolean value)
     {
-    	
+    	modified=value;
     }
     
     public JPanel getPanel()

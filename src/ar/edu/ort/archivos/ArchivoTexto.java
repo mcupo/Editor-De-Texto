@@ -1,6 +1,8 @@
 package ar.edu.ort.archivos;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.TextArea;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,21 +10,17 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
-import javax.swing.JTextArea;
-
 import ar.edu.ort.editor.ArchivoEditable;
 
 public class ArchivoTexto extends ArchivoEditable
 {
-	private JTextArea control = new JTextArea();
+	private TextArea control = new TextArea();
 	private File f;
 	private FileOutputStream outFile;
 
 	public ArchivoTexto()
 	{
-		control.setPreferredSize(new Dimension(780,510));
-		//control.append("hola\nchau!");
-		getPanel().add(control);
+		getPanel().add(control, BorderLayout.CENTER);
 	}
 	
 	@Override
@@ -43,7 +41,7 @@ public class ArchivoTexto extends ArchivoEditable
 				 
 				 while ((linea = br.readLine()) != null)
 					  control.append(linea+"\n");
-				 //br.close();
+				 br.close();
 			}
 			catch (IOException e)
 			{
@@ -75,7 +73,7 @@ public class ArchivoTexto extends ArchivoEditable
 		control.setText("");
 	}
 		
-	public JTextArea getControl()
+	public TextArea getControl()
 	{
 		return control;
 	}
