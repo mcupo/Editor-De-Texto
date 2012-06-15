@@ -23,6 +23,9 @@ public class EditorGenerico extends JFrame implements Observer
 	private static final long serialVersionUID = 1L;
 	private static final int anchoButton = 60;
 	private static final int altoButton = 35;
+	private Button bAbrir;
+	private Button bCerrar;
+	private Button bGuardar;
 	private ArchivoEditable archivo;
 	private JFileChooser fChooser = new JFileChooser();
 
@@ -33,12 +36,21 @@ public class EditorGenerico extends JFrame implements Observer
 	}
 	
 	@Override
-	public void update(Observable arg0, Object arg1)
+	public void update(Observable who, Object what)
 	{
 		/**
 		 *  TODO
 		 *  Necesito recibir una notificacion del archivo para saber que botones activar	
 		 */
+		ArchivoEditable archivo = (ArchivoEditable) who;
+		if(archivo.isModified())
+		{
+			bGuardar.setEnabled(true);
+		}
+		else
+		{
+			bGuardar.setEnabled(false);
+		}
 	}
 	
 	public void crearControles()
@@ -55,17 +67,17 @@ public class EditorGenerico extends JFrame implements Observer
 	
 	public void crearPanel()
 	{
-		Button btn;
+		//Solo arranca activo el boton abrir
 		JPanel panel = new JPanel();
 		getContentPane().add(panel,BorderLayout.NORTH);
 		panel.setBackground(Color.GRAY);
 		panel.setPreferredSize(new Dimension(0,40));
 		
-		btn = new Button("Abrir");
-		panel.add(btn);
-		btn.setName("Abrir");
-		btn.setPreferredSize(new Dimension(anchoButton,altoButton));
-		btn.addActionListener(new ActionListener()
+		bAbrir = new Button("Abrir");
+		panel.add(bAbrir);
+		bAbrir.setName("Abrir");
+		bAbrir.setPreferredSize(new Dimension(anchoButton,altoButton));
+		bAbrir.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0)
@@ -99,11 +111,12 @@ public class EditorGenerico extends JFrame implements Observer
 			}
 		});
 		
-		btn = new Button("Guardar");
-		panel.add(btn);
-		btn.setName("Guardar");
-		btn.setPreferredSize(new Dimension(anchoButton,altoButton));
-		btn.addActionListener(new ActionListener()
+		bGuardar = new Button("Guardar");
+		panel.add(bGuardar);
+		bGuardar.setName("Guardar");
+		bGuardar.setPreferredSize(new Dimension(anchoButton,altoButton));
+		bGuardar.setEnabled(false);
+		bGuardar.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0)
@@ -119,11 +132,12 @@ public class EditorGenerico extends JFrame implements Observer
 			}
 		});
 		
-		btn = new Button("Cerrar");
-		panel.add(btn);
-		btn.setName("Cerrar");
-		btn.setPreferredSize(new Dimension(anchoButton,altoButton));
-		btn.addActionListener(new ActionListener()
+		bCerrar = new Button("Cerrar");
+		panel.add(bCerrar);
+		bCerrar.setName("Cerrar");
+		bCerrar.setPreferredSize(new Dimension(anchoButton,altoButton));
+		bCerrar.setEnabled(false);
+		bCerrar.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)

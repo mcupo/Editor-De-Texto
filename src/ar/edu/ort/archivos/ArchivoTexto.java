@@ -2,6 +2,8 @@ package ar.edu.ort.archivos;
 
 import java.awt.BorderLayout;
 import java.awt.TextArea;
+import java.awt.event.TextEvent;
+import java.awt.event.TextListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,12 +15,22 @@ import ar.edu.ort.editor.ArchivoEditable;
 
 public class ArchivoTexto extends ArchivoEditable
 {
-	private TextArea control = new TextArea();
+	private TextArea control;
 	private File f;
 	private FileOutputStream outFile;
 
 	public ArchivoTexto()
 	{
+		control = new TextArea();
+		control.addTextListener(new TextListener()
+		{
+			@Override
+			public void textValueChanged(TextEvent arg0)
+			{
+				//El archivo fue modificado
+				setModified(true);
+			}
+		});
 		getPanel().add(control, BorderLayout.CENTER);
 	}
 	
@@ -61,7 +73,7 @@ public class ArchivoTexto extends ArchivoEditable
 	     {
 	    	 e.printStackTrace();
 	     }
-		control.getText();
+		setModified(false);
 	}
 
 	@Override

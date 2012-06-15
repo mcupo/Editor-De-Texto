@@ -29,12 +29,14 @@ public abstract class ArchivoEditable extends Observable
     
     public boolean isModified()
     {
-    	return true;
+    	return modified;
     }
     
     protected void setModified(boolean value)
     {
     	modified=value;
+		setChanged();
+		notifyObservers();
     }
     
     public JPanel getPanel()
