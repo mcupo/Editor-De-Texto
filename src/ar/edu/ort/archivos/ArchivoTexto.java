@@ -11,10 +11,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
-import javax.swing.JOptionPane;
-
 import ar.edu.ort.editor.ArchivoEditable;
-import ar.edu.ort.editor.EditorGenerico;
 
 public class ArchivoTexto extends ArchivoEditable
 {
@@ -52,17 +49,11 @@ public class ArchivoTexto extends ArchivoEditable
 	}
 
 	@Override
-	public void save() throws IOException
+	public void save() throws FileNotFoundException, IOException
 	{
-	     try
-	     {
-	    	 outFile= new FileOutputStream(new File(filename));	            
-	         outFile.write(control.getText().getBytes());
-	     }
-	     catch(Exception e)
-	     {
-	    	 e.printStackTrace();
-	     }
+
+		outFile= new FileOutputStream(new File(filename));	            
+		outFile.write(control.getText().getBytes());
 		setModified(false);
 	}
 

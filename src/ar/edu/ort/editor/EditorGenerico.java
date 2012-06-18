@@ -26,6 +26,7 @@ public class EditorGenerico extends JFrame implements Observer
 	private static final int anchoButton = 60;
 	private static final int altoButton = 35;
 	private static final String ERROR_DE_ACCESO = "Error al acceder al archivo: ";
+	private static final String ERROR_DE_ESCRITURA = "Error al escribir el archivo: ";
 	private Button bAbrir;
 	private Button bCerrar;
 	private Button bGuardar;
@@ -102,9 +103,13 @@ public class EditorGenerico extends JFrame implements Observer
 						System.exit(0);
 					}
 				}
-				catch (IOException e1)
+				catch(FileNotFoundException ex)
 				{
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ACCESO + ex.getMessage());
+				}
+				catch (IOException ex)
+				{
+					JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ESCRITURA + ex.getMessage());
 				}
 			}
 		});
@@ -161,9 +166,14 @@ public class EditorGenerico extends JFrame implements Observer
 							getContentPane().remove(archivo.getPanel());
 						}
 					}
-					catch (IOException e1)
+					catch(FileNotFoundException ex)
 					{
-						e1.printStackTrace();
+						getContentPane().remove(archivo.getPanel());
+						JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ACCESO + ex.getMessage());
+					}
+					catch (IOException ex)
+					{
+						JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ESCRITURA + ex.getMessage());
 					}
 				}
 				
@@ -192,7 +202,7 @@ public class EditorGenerico extends JFrame implements Observer
 					}
 					catch (IOException e)
 					{
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ESCRITURA + e.getMessage());
 					}
 	            }
 			}
@@ -212,9 +222,13 @@ public class EditorGenerico extends JFrame implements Observer
 				{
 					archivo.save();
 				}
+				catch(FileNotFoundException e)
+				{
+					JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ACCESO + e.getMessage());
+				}
 				catch (IOException e)
 				{
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ESCRITURA + e.getMessage());
 				}
 			}
 		});
@@ -255,9 +269,13 @@ public class EditorGenerico extends JFrame implements Observer
 						getContentPane().remove(archivo.getPanel());
 					}
 				}
-				catch (IOException e1)
+				catch(FileNotFoundException ex)
 				{
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ACCESO + ex.getMessage());
+				}
+				catch (IOException ex)
+				{
+					JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ESCRITURA + ex.getMessage());
 				}
 			}
 		});

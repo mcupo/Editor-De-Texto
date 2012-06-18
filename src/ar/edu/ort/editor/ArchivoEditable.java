@@ -46,7 +46,7 @@ public abstract class ArchivoEditable extends Observable
 
     public abstract void open(String filename) throws FileNotFoundException, IOException;
     
-    public abstract void save() throws IOException;
+    public abstract void save() throws FileNotFoundException, IOException;
     
     public abstract void close() throws IOException;
 }
