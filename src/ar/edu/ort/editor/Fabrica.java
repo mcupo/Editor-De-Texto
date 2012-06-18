@@ -32,7 +32,7 @@ public class Fabrica
 		return instance;
 	}
 	
-	public ArchivoEditable cargarEditor(String extension)
+	public ArchivoEditable cargarEditor(String extension) throws Exception
 	{
 		//Obtengo el nombre de la clase buscandola en las properties
 		String nombreClase=props.getProperty(extension);
@@ -48,8 +48,8 @@ public class Fabrica
 		}
 		catch(Exception ex)
 		{
-			ex.printStackTrace();
+			//Retorno la excepcion para que sea tratada por el editor genérico
+			throw ex;
 		}	
-		return null;
 	}
 }

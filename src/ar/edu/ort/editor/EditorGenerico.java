@@ -27,6 +27,7 @@ public class EditorGenerico extends JFrame implements Observer
 	private static final int altoButton = 35;
 	private static final String ERROR_DE_ACCESO = "Error al acceder al archivo: ";
 	private static final String ERROR_DE_ESCRITURA = "Error al escribir el archivo: ";
+	private static final String ERROR_DE_EXTENSION_NO_VALIDA = "Extensión no válida";
 	private Button bAbrir;
 	private Button bCerrar;
 	private Button bGuardar;
@@ -203,6 +204,10 @@ public class EditorGenerico extends JFrame implements Observer
 					catch (IOException e)
 					{
 						JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ESCRITURA + e.getMessage());
+					}
+					catch (Exception e)
+					{
+						JOptionPane.showMessageDialog(EditorGenerico.this, ERROR_DE_EXTENSION_NO_VALIDA);
 					}
 	            }
 			}
