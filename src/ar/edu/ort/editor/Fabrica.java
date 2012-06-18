@@ -6,7 +6,7 @@ import java.util.Properties;
 import ar.edu.ort.archivos.ArchivoTexto;
 
 /**
- * Fabrica singleteada que devuelve objetos de tipo ArchivoEditable
+ * Fabrica singleteada que devuelve objetos de tipo {@link ArchivoEditable}
  *
  */
 

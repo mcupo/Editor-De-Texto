@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 /**
  * Clase genérica con los metodos de un archivo editable
- * Es observada por
+ * Es observada por {@link EditorGenerico}
  */
 
 public abstract class ArchivoEditable extends Observable

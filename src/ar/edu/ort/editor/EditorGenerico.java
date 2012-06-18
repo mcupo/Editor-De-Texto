@@ -20,6 +20,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+/**
+ * Clase observadora de {@link ArchivoEditable}
+ * Puede instanciar cualquier tipo de {@link ArchivoEditable} para ser modificado
+ */
+
 public class EditorGenerico extends JFrame implements Observer
 {
 	private static final long serialVersionUID = 1L;
@@ -189,7 +194,6 @@ public class EditorGenerico extends JFrame implements Observer
 	                try
 	                {
 						archivo=Fabrica.instace().cargarEditor(extension);
-						//TODO validar extension
 						archivo.addObserver(EditorGenerico.this);
 	                	archivo.open(file.getAbsolutePath());
 	                	getContentPane().add(archivo.getPanel(),BorderLayout.CENTER);
@@ -259,12 +263,14 @@ public class EditorGenerico extends JFrame implements Observer
 							archivo.save();
 							archivo.close();
 							getContentPane().remove(archivo.getPanel());
+							bCerrar.setEnabled(false);
 						}
 						else if(n==JOptionPane.NO_OPTION)
 						{
 							archivo.close();
 							//Remuevo el panel
 							getContentPane().remove(archivo.getPanel());
+							bCerrar.setEnabled(false);
 						}
 					}
 					else
@@ -272,6 +278,7 @@ public class EditorGenerico extends JFrame implements Observer
 						archivo.close();
 						//Remuevo el panel
 						getContentPane().remove(archivo.getPanel());
+						bCerrar.setEnabled(false);
 					}
 				}
 				catch(FileNotFoundException ex)

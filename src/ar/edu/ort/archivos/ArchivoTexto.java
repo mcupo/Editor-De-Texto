@@ -13,6 +13,11 @@ import java.io.IOException;
 
 import ar.edu.ort.editor.ArchivoEditable;
 
+/**
+ * Implementación de la clase {@link ArchivoEditable} para el manejo de archivos de texto
+ *
+ */
+
 public class ArchivoTexto extends ArchivoEditable
 {
 	private TextArea control;
