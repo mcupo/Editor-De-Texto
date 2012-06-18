@@ -11,7 +11,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import ar.edu.ort.editor.ArchivoEditable;
+import ar.edu.ort.editor.EditorGenerico;
 
 public class ArchivoTexto extends ArchivoEditable
 {
@@ -39,26 +42,13 @@ public class ArchivoTexto extends ArchivoEditable
 	{
 		this.filename=filename;
 		f = new File(filename);
-		if (!f.exists())
-		{
-			System.out.println("Archivo no encontrado");
-		}
-		else
-		{
-			try
-			{
-				 BufferedReader br = new BufferedReader(new FileReader(f));
-				 String linea;
-				 
-				 while ((linea = br.readLine()) != null)
-					  control.append(linea+"\n");
-				 br.close();
-			}
-			catch (IOException e)
-			{
-				System.out.println("Error al acceder al archivo: " + e.getMessage());
-			}
-		}
+
+		BufferedReader br = new BufferedReader(new FileReader(f));
+		String linea;
+		 
+		while ((linea = br.readLine()) != null)
+			control.append(linea+"\n");
+		br.close();
 	}
 
 	@Override
@@ -82,6 +72,9 @@ public class ArchivoTexto extends ArchivoEditable
 		if (outFile!=null)
 			outFile.close();
 		control.setText("");
+		//Remuevo del panel el TextArea para que no siga funcionando el listener
+		getPanel().remove(control);
+        setModified(false);
 	}
 		
 	public TextArea getControl()

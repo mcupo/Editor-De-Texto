@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -23,6 +25,7 @@ public class EditorGenerico extends JFrame implements Observer
 	private static final long serialVersionUID = 1L;
 	private static final int anchoButton = 60;
 	private static final int altoButton = 35;
+	private static final String ERROR_DE_ACCESO = "Error al acceder al archivo: ";
 	private Button bAbrir;
 	private Button bCerrar;
 	private Button bGuardar;
@@ -38,10 +41,6 @@ public class EditorGenerico extends JFrame implements Observer
 	@Override
 	public void update(Observable who, Object what)
 	{
-		/**
-		 *  TODO
-		 *  Necesito recibir una notificacion del archivo para saber que botones activar	
-		 */
 		ArchivoEditable archivo = (ArchivoEditable) who;
 		if(archivo.isModified())
 		{
@@ -63,6 +62,52 @@ public class EditorGenerico extends JFrame implements Observer
 	{
 		setBounds(0, 0, 800, 600);
 		getContentPane().setLayout(new BorderLayout());
+		addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing(WindowEvent evt)
+			{
+				try
+				{
+					//Si no hay archivo salgo
+					if(archivo==null) System.exit(0);
+					//Si el archivo fue modificado pregunto si desea guardar los cambios
+					if(archivo.isModified())
+					{
+						int n = JOptionPane.showConfirmDialog(EditorGenerico.this, "¿Desea guardar los cambios?","Confirme la salida", JOptionPane.YES_NO_CANCEL_OPTION);
+						if(n==JOptionPane.YES_OPTION)
+						{
+							archivo.save();
+							archivo.close();
+							getContentPane().remove(archivo.getPanel());
+							System.exit(0);
+						}
+						else if(n==JOptionPane.NO_OPTION)
+						{
+							archivo.close();
+							//Remuevo el panel
+							getContentPane().remove(archivo.getPanel());
+							System.exit(0);
+						}
+						//Si cancela no hago nada
+						else
+						{
+							setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+						}
+					}
+					else
+					{
+						archivo.close();
+						//Remuevo el panel
+						getContentPane().remove(archivo.getPanel());
+						System.exit(0);
+					}
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	public void crearPanel()
@@ -82,7 +127,47 @@ public class EditorGenerico extends JFrame implements Observer
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-	            int returnVal = fChooser.showOpenDialog(EditorGenerico.this);
+				//Verifico si hay un archivo
+				if(archivo!=null)
+				{
+					try
+					{
+						//Si el archivo fue modificado pregunto si desea guardar los cambios
+						if(archivo.isModified())
+						{
+							int n = JOptionPane.showConfirmDialog(EditorGenerico.this, "¿Desea guardar los cambios?","Confirme la salida", JOptionPane.YES_NO_CANCEL_OPTION);
+							if(n==JOptionPane.YES_OPTION)
+							{
+								archivo.save();
+								archivo.close();
+								getContentPane().remove(archivo.getPanel());
+							}
+							else if(n==JOptionPane.NO_OPTION)
+							{
+								archivo.close();
+								//Remuevo el panel
+								getContentPane().remove(archivo.getPanel());
+							}
+							else
+							{
+								//Por cancelar no hago más nada
+								return;
+							}
+						}
+						else
+						{
+							archivo.close();
+							//Remuevo el panel
+							getContentPane().remove(archivo.getPanel());
+						}
+					}
+					catch (IOException e1)
+					{
+						e1.printStackTrace();
+					}
+				}
+				
+				int returnVal = fChooser.showOpenDialog(EditorGenerico.this);
 	            
 	            if (returnVal == JFileChooser.APPROVE_OPTION)
 	            {
@@ -98,10 +183,12 @@ public class EditorGenerico extends JFrame implements Observer
 	                	archivo.open(file.getAbsolutePath());
 	                	getContentPane().add(archivo.getPanel(),BorderLayout.CENTER);
 	                	SwingUtilities.updateComponentTreeUI(EditorGenerico.this);
+	                	//Habilito el boton de cierre
+	                	bCerrar.setEnabled(true);
 					}
 	                catch (FileNotFoundException e)
 					{					
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ACCESO + e.getMessage());
 					}
 					catch (IOException e)
 					{
@@ -144,10 +231,29 @@ public class EditorGenerico extends JFrame implements Observer
 			{
 				try
 				{
-					int n = JOptionPane.showConfirmDialog(EditorGenerico.this, "¿Desea guardar los cambios?","Confirme la salida", JOptionPane.YES_NO_OPTION);
-					if(n==JOptionPane.YES_OPTION) archivo.save();
-					archivo.close();
-					
+					//Si el archivo fue modificado pregunto si desea guardar los cambios
+					if(archivo.isModified())
+					{
+						int n = JOptionPane.showConfirmDialog(EditorGenerico.this, "¿Desea guardar los cambios?","Confirme la salida", JOptionPane.YES_NO_CANCEL_OPTION);
+						if(n==JOptionPane.YES_OPTION)
+						{
+							archivo.save();
+							archivo.close();
+							getContentPane().remove(archivo.getPanel());
+						}
+						else if(n==JOptionPane.NO_OPTION)
+						{
+							archivo.close();
+							//Remuevo el panel
+							getContentPane().remove(archivo.getPanel());
+						}
+					}
+					else
+					{
+						archivo.close();
+						//Remuevo el panel
+						getContentPane().remove(archivo.getPanel());
+					}
 				}
 				catch (IOException e1)
 				{
@@ -155,7 +261,5 @@ public class EditorGenerico extends JFrame implements Observer
 				}
 			}
 		});
-		
-		//getContentPane().add(archivo.getPanel(),BorderLayout.SOUTH);
 	 }
 }
