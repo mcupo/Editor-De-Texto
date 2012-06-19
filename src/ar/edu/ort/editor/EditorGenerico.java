@@ -69,6 +69,7 @@ public class EditorGenerico extends JFrame implements Observer
 	{
 		setBounds(0, 0, 800, 600);
 		getContentPane().setLayout(new BorderLayout());
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter()
 		{
 			public void windowClosing(WindowEvent evt)
@@ -95,11 +96,6 @@ public class EditorGenerico extends JFrame implements Observer
 							getContentPane().remove(archivo.getPanel());
 							System.exit(0);
 						}
-						//Si cancela no hago nada
-						else
-						{
-							setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-						}
 					}
 					else
 					{
@@ -108,10 +104,6 @@ public class EditorGenerico extends JFrame implements Observer
 						getContentPane().remove(archivo.getPanel());
 						System.exit(0);
 					}
-				}
-				catch(FileNotFoundException ex)
-				{
-					JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ACCESO + ex.getMessage());
 				}
 				catch (IOException ex)
 				{
@@ -174,12 +166,14 @@ public class EditorGenerico extends JFrame implements Observer
 					}
 					catch(FileNotFoundException ex)
 					{
-						getContentPane().remove(archivo.getPanel());
+						//getContentPane().remove(archivo.getPanel());
 						JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ACCESO + ex.getMessage());
+						return ;
 					}
 					catch (IOException ex)
 					{
 						JOptionPane.showMessageDialog(EditorGenerico.this,ERROR_DE_ESCRITURA + ex.getMessage());
+						return ;
 					}
 				}
 				

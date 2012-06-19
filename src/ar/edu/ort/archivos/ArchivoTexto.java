@@ -22,7 +22,6 @@ public class ArchivoTexto extends ArchivoEditable
 {
 	private TextArea control;
 	private File f;
-	private FileOutputStream outFile;
 
 	public ArchivoTexto()
 	{
@@ -54,19 +53,18 @@ public class ArchivoTexto extends ArchivoEditable
 	}
 
 	@Override
-	public void save() throws FileNotFoundException, IOException
+	public void save() throws IOException
 	{
-
+		FileOutputStream outFile;
 		outFile= new FileOutputStream(new File(filename));	            
 		outFile.write(control.getText().getBytes());
+		outFile.close();
 		setModified(false);
 	}
 
 	@Override
 	public void close() throws IOException
 	{
-		if (outFile!=null)
-			outFile.close();
 		control.setText("");
 		//Remuevo del panel el TextArea para que no siga funcionando el listener
 		getPanel().remove(control);
